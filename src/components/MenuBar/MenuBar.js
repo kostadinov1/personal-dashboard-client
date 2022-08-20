@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import {
-  HomeOutlined,
-  HomeTwoTone,
+  HomeFilled,
+    LineChartOutlined,
     PieChartOutlined,
-    SyncOutlined,
-
+    ProfileFilled,
     } from '@ant-design/icons';
+
 import { Menu } from 'antd';
 import { Link } from 'react-router-dom';
+import { PandaIcon } from '../Icons/icons';
 
 function MenuBar() {
 
@@ -16,14 +17,14 @@ function MenuBar() {
   return (
 
     <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-      <Menu.Item key="1" icon={<HomeOutlined />}>
+      <Menu.Item key="1" icon={<HomeFilled/>}>
         <Link to='/'>Home</Link>
       </Menu.Item>
-      <Menu.Item key="2" icon={<PieChartOutlined />}>
+      <Menu.Item key="2" icon={<ProfileFilled />}>
         <Link to='/profile'>Profile</Link>
       </Menu.Item>
-      <Menu.SubMenu title='Periodization'  icon={<SyncOutlined />}>
-          <Menu.Item key="11" icon={<PieChartOutlined />}>
+      <Menu.SubMenu title='Periodization'  icon={<PieChartOutlined />}>
+          <Menu.Item key="11" icon={<LineChartOutlined />}>
             <Link to='/periodization'>Dashboard</Link>
           </Menu.Item>
           <Menu.Item key="12" icon={<PieChartOutlined />}>
@@ -32,7 +33,7 @@ function MenuBar() {
       </Menu.SubMenu>
 
       <Menu.SubMenu title='Activities'  icon={<PieChartOutlined />}>
-          <Menu.Item key="11" icon={<PieChartOutlined />}>
+          <Menu.Item key="11" icon={<PandaIcon />}>
             <Link to='/activities'>All Activities</Link>
           </Menu.Item>
           <Menu.Item key="12" icon={<PieChartOutlined />}>
