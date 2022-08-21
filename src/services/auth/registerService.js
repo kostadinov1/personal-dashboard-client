@@ -8,6 +8,7 @@ export const registerService = async (email, password) => {
         headers: { 'Content-type': 'application/json'},
         body: JSON.stringify({email, password})
     })
-    const reg = await response.json()
-    return reg
+    const userRegistered = await response.json()
+    console.log(response)
+    return userRegistered;
 }

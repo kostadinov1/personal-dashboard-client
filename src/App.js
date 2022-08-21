@@ -12,18 +12,22 @@ import Activities from './components/Activities/Activities';
 
 import { Layout } from 'antd';
 import 'antd/dist/antd.css';import './App.css';
-import Profile from './components/Profile/ShowProfile';
 import CreateProfile from './components/Profile/CreateProfile';
 import EditProfile from './components/Profile/EditProfile';
 
 import DeleteProfile from './components/Profile/DeleteProfile';
 import ShowProfile from './components/Profile/ShowProfile';
+import PeriodizationV2 from './components/Periodization/PeriodizationV2';
+import Statistics from './components/Periodization/Statistics';
+import { ExperimentTwoTone } from '@ant-design/icons';
+import CalendarFullPage from './components/Calendar/Calendar';
 const { Header, Content, Footer, Sider }  = Layout;
 
 
 function App() {
 
   const [collapsed, setCollapsed] = useState(false);
+
   const [accessToken, setAccessToken] = useLocalStorage('userToken',{accessToken:''})
 
   const onLogin = (token) => {
@@ -37,7 +41,12 @@ function App() {
     <AuthContext.Provider value={{ accessToken, onLogin, onLogOut}} >
     <Layout style={{ minHeight: '100vh', }} >
       <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-        <div className="logo" />
+        <div className="logo">
+        <ExperimentTwoTone style={{ fontSize: '50px', color: '#08c',
+                                    marginInline: '15px' }}/>
+        <span style={{color:'white', fontFamily: 'fantasy',
+                      fontWeight: 'bold', fontStretch: 'expanded'}}>Action Logs</span>
+        </div>
         <MenuBar/>
       </Sider>
       <Layout className="site-layout">
@@ -48,19 +57,24 @@ function App() {
                 <Route path='/' element={<Home/>}/>
                 <Route path='/about-us' element={<Home/>}/>
                 <Route path='/contacts' element={<Home/>}/>
+                <Route path='/calendar' element={<CalendarFullPage/>}/>
 
                  {/* Authentication */}
                 <Route path='/login' element={<Login />}/>
                 <Route path='/register' element={<Register />}/>
 
                    {/* Profile */}
-                <Route path='/profile' element={<ShowProfile />}/>
+                <Route path='/show-profile' element={<ShowProfile />}/>
                 <Route path='/create-profile' element={<CreateProfile />}/>
                 <Route path='/edit-profile' element={<EditProfile />}/>
                 <Route path='/delete-profile' element={<DeleteProfile />}/>
 
                   {/* Periodization */}
                 <Route path='/periodization' element={<Periodization />}/>
+                <Route path='/periodization-v2' element={<PeriodizationV2 />}/>
+                <Route path='/statistics' element={<Statistics />}/>
+
+
 
                   {/* Activities */}
                 <Route path='/activities' element={<Activities />}/>
