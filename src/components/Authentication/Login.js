@@ -76,8 +76,6 @@ const Login = () => {
 
 export default Login;
 
-
-// styles
 // #components-form-demo-normal-login .login-form {
 //   max-width: 300px;
 // }

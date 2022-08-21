@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import {
   HomeFilled,
     LineChartOutlined,
+    LogoutOutlined,
     PhoneFilled,
     PieChartOutlined,
     QuestionCircleFilled,
@@ -66,7 +67,10 @@ function MenuBar() {
         <Link to='/about-us'>About Us</Link>
       </Menu.Item>
       <Menu.Item key="4" icon={<PhoneFilled/>}>
-        <Link to='/Contacts'>Contacts</Link>
+        <Link to='/contacts'>Contacts</Link>
+      </Menu.Item>
+      <Menu.Item key="5" icon={<LogoutOutlined/>}>
+        <Link to='/logout'>Logout</Link>
       </Menu.Item>
 
     </Menu>
