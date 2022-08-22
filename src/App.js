@@ -42,10 +42,10 @@ function App() {
     <Layout style={{ minHeight: '100vh', }} >
       <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
         <div className="logo">
-        <ExperimentTwoTone style={{ fontSize: '50px', color: '#08c',
+        <ExperimentTwoTone style={{ fontSize: '22px', color: '#08c',
                                     marginInline: '15px' }}/>
         <span style={{color:'white', fontFamily: 'fantasy',
-                      fontWeight: 'bold', fontStretch: 'expanded'}}>Action Logs</span>
+                      fontWeight: 'bold', fontStretch: 'expanded'}}>ScrollLog</span>
         </div>
         <MenuBar/>
       </Sider>
@@ -55,7 +55,7 @@ function App() {
             <Routes>             
                   {/* Core  */}
                 <Route path='/' element={<Home/>}/>
-                <Route path='/about-us' element={<Home/>}/>
+                <Route path='/about' element={<Home/>}/>
                 <Route path='/contacts' element={<Home/>}/>
                 <Route path='/calendar' element={<CalendarFullPage/>}/>
 
@@ -65,7 +65,7 @@ function App() {
 
                    {/* Profile */}
                 <Route path='/show-profile' element={<ShowProfile />}/>
-                <Route path='/create-profile' element={<CreateProfile />}/>
+                <Route path='/create-profile' element={<CreateProfile />}/>                   
                 <Route path='/edit-profile' element={<EditProfile />}/>
                 <Route path='/delete-profile' element={<DeleteProfile />}/>
 

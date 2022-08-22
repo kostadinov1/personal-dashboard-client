@@ -1,18 +1,31 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, Space } from 'antd';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../contexts/AuthContext';
 import { loginService } from '.././../services/auth/loginService'
 
 const Login = () => {
+  const { onLogin } = useContext(AuthContext)
 
   const navigate = useNavigate()
 
   const onFinish = (values) => {
+
     const email = values.email;
     const password = values.password;
-    loginService(email, password)
-    navigate('/')
+    loginService(email, password).then((loginData) => {
+      console.log(loginData)
+      console.log('loggedIn')
+      onLogin(loginData.token)
+      navigate('/')
+
+      }).catch((err) => {
+          // TODO show notification
+          console.log(err)
+      
+  // onLogin(email)
+  })
   };
 
   return (

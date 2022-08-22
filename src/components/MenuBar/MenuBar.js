@@ -4,20 +4,17 @@ import {
   HomeFilled,
     LineChartOutlined,
     LogoutOutlined,
-    PhoneFilled,
     PhoneOutlined,
     PieChartOutlined,
-    QuestionCircleFilled,
     QuestionCircleOutlined,
     UserOutlined,
     } from '@ant-design/icons';
 
 import { Menu } from 'antd';
 import { Link } from 'react-router-dom';
-import { PandaIcon } from '../Icons/icons';
 
 function MenuBar() {
-
+  
     // const [collapsed, setCollapsed] = useState(false);
 
   return (
@@ -29,6 +26,10 @@ function MenuBar() {
 
       <Menu.Item key="2" icon={<UserOutlined />}>
         <Link to='/show-profile'>Profile</Link>
+      </Menu.Item>
+
+      <Menu.Item key="28" icon={<UserOutlined />}>
+        <Link to='/create-profile'>Profile Create</Link>
       </Menu.Item>
       
       <Menu.Item key="98" icon={<UserOutlined />}>
@@ -73,7 +74,7 @@ function MenuBar() {
       </Menu.SubMenu>
 
       <Menu.Item key="3" icon={<QuestionCircleOutlined/>}>
-        <Link to='/about-us'>About Us</Link>
+        <Link to='/about'>About</Link>
       </Menu.Item>
       <Menu.Item key="4" icon={<PhoneOutlined/>}>
         <Link to='/contacts'>Contacts</Link>

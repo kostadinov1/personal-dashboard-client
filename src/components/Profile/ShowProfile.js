@@ -1,21 +1,39 @@
-import { Avatar, Button, Card, Col, Radio, Row, Select, Space, Typography } from 'antd';
-import { DeleteOutlined, EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
-import React, { useState, useEffect } from 'react';
-import { Image, Calendar,} from 'antd';
-import { Link } from 'react-router-dom';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import React, { } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Meta from 'antd/lib/card/Meta';
 import { Pie, measureTextWidth } from '@ant-design/plots';
 import MultiLineChart from '../Charts/MultiLineChart';
+import LocalModal from './LocalModal';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { Modal,  Avatar, Card, Col, Row} from 'antd';
+import { deleteProfileService } from '../../services/profile/deleteProfileService'
 
 
 const ShowProfile = () => {
-  const [visible, setVisible] = useState(false);
-  const onPanelChange = (value, mode) => {
-    console.log(value.format('YYYY-MM-DD'), mode);
-  };
-  
 
-    function renderStatistic(containerWidth, text, style) {
+  const navigate = useNavigate();
+
+  const onDelete = () => {
+    navigate('/');
+    deleteProfileService(16);
+  };
+
+  const confirmOnDelete = () => {
+    Modal.confirm({
+      title: 'Confirm',
+      icon: <ExclamationCircleOutlined />,
+      content: 'Are You Sure You Want To DELETE Your Account?!',
+      okText: 'Yes!',
+      cancelText: 'No!',
+      onOk: onDelete,
+      onCancel: ()=>navigate('/show-profile/'),
+      confirmLoading: true,
+      destroyOnClose: true,
+      centered: true,
+    });
+    };
+  const renderStatistic = (containerWidth, text, style) => {
       const { width: textWidth, height: textHeight } = measureTextWidth(text, style);
       const R = containerWidth / 2; // r^2 = (w / 2)^2 + (h - offsetY)^2
   
@@ -27,9 +45,8 @@ const ShowProfile = () => {
   
       const textStyleStr = `width:${containerWidth}px;`;
       return `<div style="${textStyleStr};font-size:${scale}em;line-height:${scale < 1 ? 1 : 'inherit'};">${text}</div>`;
-    }
-  
-    const data = [
+    };
+  const data = [
       {
         type: 'Running',
         value: 27,
@@ -55,7 +72,7 @@ const ShowProfile = () => {
         value: 5,
       },
     ];
-    const config = {
+  const config = {
       appendPadding: 10,
       data,
       angleField: 'value',
@@ -130,16 +147,16 @@ const ShowProfile = () => {
                   cover={
                     <img
                       alt="example"
-                      src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                      src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.kli5J_bjfkyTOk0orIlx3AHaEo%26pid%3DApi&f=1"
                     />
                   }
                   actions={[
                     <Link to='/edit-profile'><EditOutlined key="edit" /> Edit</Link>,
-                    <Link to='/delete-profile/'><DeleteOutlined key="delete" /> Delete</Link>,
+                    <Link onClick={confirmOnDelete} to='/delete-profile/'><DeleteOutlined key="delete" /> Delete</Link>,
                   ]}
                 >
                   <Meta
-                    avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                    avatar={<Avatar src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.2kEpxlhbnNbN9dPJBMdeZgHaHa%26pid%3DApi&f=1" />}
                     title="Your Profile"
                     description="This is the description"
                   />
@@ -185,7 +202,7 @@ const ShowProfile = () => {
               maxHeight: '100%'
             }}
           >
-            <p>Card content</p>
+            <LocalModal />
             <p>Card content</p>
             <p>Card content</p>
             <p>Card content</p>
