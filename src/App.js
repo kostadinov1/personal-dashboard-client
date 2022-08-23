@@ -25,21 +25,34 @@ const { Header, Content, Footer, Sider }  = Layout;
 function App() {
 
   const [collapsed, setCollapsed] = useState(false);
+  const [accessToken, setAccessToken] = useLocalStorage('accessToken',{accessToken: ''})
+  const [ userID, setUserID ] = useLocalStorage('userID', {userID: ''})
+  const [user, setUser] = useState({})
 
-  const [accessToken, setAccessToken] = useLocalStorage('accessToken',{accessToken:''})
+  const onLogin = (user) => {
+    setUserID(user.user_id)
+    setUser(user)
+    // console.log('user onLogin from app.js:', user)
+    setAccessToken(user.token)};
+  
 
-  const onLogin = (token) => {
-    setAccessToken(token);
-  }
+
+
   const onLogOut = () => {
-    logoutService(accessToken).then(res => {
+    console.log('onLogout:', user)
+
+    logoutService(user.token).then(res => {
       console.log('onLogout in app.js, res=>', res)
-    }).catch((err)=>{console.log(err)})
+    }).catch((err)=>{console.log('onLogout-logout service call error:',err)})
+    setUserID({userID: ''})
     setAccessToken({accessToken:''});
   }
-  console.log(accessToken.length)
+  
+
+
+
   return (
-    <AuthContext.Provider value={{ accessToken, onLogin, onLogOut}} >
+    <AuthContext.Provider value={{ user, accessToken, onLogin, onLogOut}} >
     <Layout style={{ minHeight: '100vh', }} >
       <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
         <div className="logo">
@@ -52,21 +65,22 @@ function App() {
       </Sider>
       <Layout className="site-layout">
         <Header className="site-layout-background" style={{ padding: 0, }}>
+          
           {/* Authentication Buttons */}
           <span style={{float:'right', marginRight: '20px'}}>
-            {accessToken.length === undefined
+            {accessToken.accessToken === ''
              ? <> 
                <Button
                 shape='round'
                 ghost='true'
                 size='small'
-               ><Link to='/login'>Login</Link>
+               ><Link to='/login'>login</Link>
                </Button> 
                <Button
                 shape='round'
                 ghost='true'
                 size='small'
-                ><Link to='/register'>Register</Link>
+                ><Link to='/register'>register</Link>
                </Button> 
                </> : 
                 <Button
@@ -74,7 +88,7 @@ function App() {
                 ghost='true'
                 size='small'
                 onClick={onLogOut}
-                >Logout
+                ><Link to='/'>logout</Link>
                 </Button>
               }
           </span>
@@ -102,14 +116,11 @@ function App() {
                 <Route path='/periodization-v2' element={<PeriodizationV2 />}/>
                 <Route path='/statistics' element={<Statistics />}/>
 
-
-
                   {/* Activities */}
                 <Route path='/activities' element={<Activities />}/>
 
                    {/* Exercises */}
                 <Route path='/exercises' element={<Activities />}/>
-
 
             </Routes>
         </Content>

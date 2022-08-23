@@ -1,13 +1,23 @@
 
 
-export const logoutService = async (userId) => {
-    const url = `http://127.0.0.1:8000/accounts/logout/2/`
-    const response = await fetch(url)
+export const logoutService = async (user) => {
+    console.log('user in logout service:', user)
+
+    const url = `http://127.0.0.1:8000/accounts/logout/${user}/`
+
+    const response = await fetch(url, 
+    //     {
+    //     method: 'get',
+    //     headers: { 'Authorization': 'Token ' + user}
+    // }
+    )
     const logout = await response.json()
-    console.log(logout, 'logout in logoutService.js')
+
     if (response.ok) {
+        console.log(logout, 'logout success in logoutService.js')
         return logout
     } else {
+        console.log(logout, 'logout error in logoutService.js')
         throw logout
     }
 }

@@ -1,5 +1,5 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import React, { } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Meta from 'antd/lib/card/Meta';
 import { Pie, measureTextWidth } from '@ant-design/plots';
@@ -8,15 +8,25 @@ import LocalModal from './LocalModal';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Modal,  Avatar, Card, Col, Row} from 'antd';
 import { deleteProfileService } from '../../services/profile/deleteProfileService'
+import { showProfileService } from '../../services/profile/showProfileService';
+import { getUserService } from '../../services/auth/getUserService';
+import { AuthContext } from '../../contexts/AuthContext';
 
 
 const ShowProfile = () => {
+  const { user } = useContext(AuthContext)
 
+  const [profile, setProfile] = useState('')
   const navigate = useNavigate();
+  const userID = localStorage.getItem('userID')
 
   const onDelete = () => {
+    localStorage.setItem('userID', '')
+    localStorage.setItem('accessToken', '')
+    deleteProfileService(userID)
+    .then(res => console.log(res))
+    .catch(err => console.log(err));
     navigate('/');
-    deleteProfileService(16);
   };
 
   const confirmOnDelete = () => {
@@ -132,6 +142,12 @@ const ShowProfile = () => {
         },
       ],
     };
+
+    useEffect(() => {
+      showProfileService(userID).then((res) => {
+        setProfile(res)
+      }).catch((error) => console.log(error))
+    }, [userID])
 
 
   return (

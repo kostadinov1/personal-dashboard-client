@@ -7,6 +7,7 @@ import { loginService } from '.././../services/auth/loginService'
 
 const Login = () => {
   const { onLogin } = useContext(AuthContext)
+  
 
   const navigate = useNavigate()
 
@@ -15,7 +16,7 @@ const Login = () => {
     const email = values.email;
     const password = values.password;
     loginService(email, password).then((loginData) => {
-      onLogin(loginData.token)
+      onLogin(loginData)
       navigate('/')
       }).catch((err) => {
           // TODO: show notification
