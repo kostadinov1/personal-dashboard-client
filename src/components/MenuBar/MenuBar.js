@@ -1,22 +1,18 @@
-import React, { useState } from 'react'
 import {
-  CalendarOutlined,
-  HomeFilled,
+    HomeFilled,
     LineChartOutlined,
-    LogoutOutlined,
     PhoneOutlined,
     PieChartOutlined,
     QuestionCircleOutlined,
     UserOutlined,
     } from '@ant-design/icons';
 
-import { Menu } from 'antd';
-import { Link } from 'react-router-dom';
-
-function MenuBar() {
+    
+    import { Menu } from 'antd';
+    import { Link } from 'react-router-dom';
+    
+    function MenuBar() {
   
-    // const [collapsed, setCollapsed] = useState(false);
-
   return (
     <Menu theme="dark" mode="inline">
 
@@ -28,17 +24,7 @@ function MenuBar() {
         <Link to='/show-profile'>Profile</Link>
       </Menu.Item>
 
-      <Menu.Item key="28" icon={<UserOutlined />}>
-        <Link to='/create-profile'>Profile Create</Link>
-      </Menu.Item>
-      
-      <Menu.Item key="98" icon={<UserOutlined />}>
-        <Link to='/register'>Register</Link>
-      </Menu.Item>
-
-      <Menu.Item key="99" icon={<UserOutlined />}>
-        <Link to='/login'>Login</Link>
-      </Menu.Item>      
+ 
 
       <Menu.SubMenu title='Periodization' key='10' icon={<PieChartOutlined />}>
           <Menu.Item key="11" icon={<LineChartOutlined />}>
@@ -76,18 +62,12 @@ function MenuBar() {
       <Menu.Item key="3" icon={<QuestionCircleOutlined/>}>
         <Link to='/about'>About</Link>
       </Menu.Item>
+
       <Menu.Item key="4" icon={<PhoneOutlined/>}>
         <Link to='/contacts'>Contacts</Link>
       </Menu.Item>
-      <Menu.Item key="5" icon={<LogoutOutlined/>}>
-        <Link to='/logout'>Logout</Link>
-      </Menu.Item>
-      <Menu.Item key="6" icon={<CalendarOutlined/>}>
-        <Link to='/calendar'>Calendar</Link>
-      </Menu.Item>
 
     </Menu>
-
   )
 }
 

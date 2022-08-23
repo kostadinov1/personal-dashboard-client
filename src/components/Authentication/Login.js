@@ -15,21 +15,15 @@ const Login = () => {
     const email = values.email;
     const password = values.password;
     loginService(email, password).then((loginData) => {
-      console.log(loginData)
-      console.log('loggedIn')
       onLogin(loginData.token)
       navigate('/')
-
       }).catch((err) => {
-          // TODO show notification
+          // TODO: show notification
           console.log(err)
-      
-  // onLogin(email)
-  })
+        })
   };
 
   return (
-      
     <Space>
     <Form
     name="normal_login"
@@ -88,17 +82,3 @@ const Login = () => {
 };
 
 export default Login;
-
-// #components-form-demo-normal-login .login-form {
-//   max-width: 300px;
-// }
-// #components-form-demo-normal-login .login-form-forgot {
-//   float: right;
-// }
-// #components-form-demo-normal-login .ant-col-rtl .login-form-forgot {
-//   float: left;
-// }
-// #components-form-demo-normal-login .login-form-button {
-//   width: 100%;
-// }
-

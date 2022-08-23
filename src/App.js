@@ -1,5 +1,5 @@
 
-import { Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes } from 'react-router-dom';
 import { useLocalStorage } from './hooks/useLocalStorage'
 import { AuthContext } from './contexts/AuthContext';
 import Home from './components/Home/Home';
@@ -9,18 +9,16 @@ import MenuBar from './components/MenuBar/MenuBar';
 import Login from './components/Authentication/Login';
 import Register from './components/Authentication/Register';
 import Activities from './components/Activities/Activities';
-
-import { Layout } from 'antd';
-import 'antd/dist/antd.css';import './App.css';
-import CreateProfile from './components/Profile/CreateProfile';
+import { Button, Layout } from 'antd';
 import EditProfile from './components/Profile/EditProfile';
-
 import DeleteProfile from './components/Profile/DeleteProfile';
 import ShowProfile from './components/Profile/ShowProfile';
 import PeriodizationV2 from './components/Periodization/PeriodizationV2';
 import Statistics from './components/Periodization/Statistics';
 import { ExperimentTwoTone } from '@ant-design/icons';
 import CalendarFullPage from './components/Calendar/Calendar';
+import 'antd/dist/antd.css';import './App.css';
+import { logoutService } from './services/auth/logoutServce';
 const { Header, Content, Footer, Sider }  = Layout;
 
 
@@ -28,15 +26,18 @@ function App() {
 
   const [collapsed, setCollapsed] = useState(false);
 
-  const [accessToken, setAccessToken] = useLocalStorage('userToken',{accessToken:''})
+  const [accessToken, setAccessToken] = useLocalStorage('accessToken',{accessToken:''})
 
   const onLogin = (token) => {
     setAccessToken(token);
   }
-  const onLogOut = (token) => {
-    setAccessToken(token);
+  const onLogOut = () => {
+    logoutService(accessToken).then(res => {
+      console.log('onLogout in app.js, res=>', res)
+    }).catch((err)=>{console.log(err)})
+    setAccessToken({accessToken:''});
   }
-
+  console.log(accessToken.length)
   return (
     <AuthContext.Provider value={{ accessToken, onLogin, onLogOut}} >
     <Layout style={{ minHeight: '100vh', }} >
@@ -50,7 +51,34 @@ function App() {
         <MenuBar/>
       </Sider>
       <Layout className="site-layout">
-        <Header className="site-layout-background" style={{ padding: 0, }}></Header>
+        <Header className="site-layout-background" style={{ padding: 0, }}>
+          {/* Authentication Buttons */}
+          <span style={{float:'right', marginRight: '20px'}}>
+            {accessToken.length === undefined
+             ? <> 
+               <Button
+                shape='round'
+                ghost='true'
+                size='small'
+               ><Link to='/login'>Login</Link>
+               </Button> 
+               <Button
+                shape='round'
+                ghost='true'
+                size='small'
+                ><Link to='/register'>Register</Link>
+               </Button> 
+               </> : 
+                <Button
+                shape='round'
+                ghost='true'
+                size='small'
+                onClick={onLogOut}
+                >Logout
+                </Button>
+              }
+          </span>
+        </Header>
         <Content style={{ margin: '0 16px', }} >
             <Routes>             
                   {/* Core  */}
@@ -62,10 +90,10 @@ function App() {
                  {/* Authentication */}
                 <Route path='/login' element={<Login />}/>
                 <Route path='/register' element={<Register />}/>
+                <Route path='/logout' element={<Login />}/>
 
                    {/* Profile */}
                 <Route path='/show-profile' element={<ShowProfile />}/>
-                <Route path='/create-profile' element={<CreateProfile />}/>                   
                 <Route path='/edit-profile' element={<EditProfile />}/>
                 <Route path='/delete-profile' element={<DeleteProfile />}/>
 
