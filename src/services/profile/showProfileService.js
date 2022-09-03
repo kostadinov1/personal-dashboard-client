@@ -4,6 +4,10 @@ export const showProfileService = async (profileId) => {
     const response = await fetch(url);
     const profile = await response.json();
     
-    return profile;
+    if (response.ok) {
+        return profile;
+    } else {
+        throw profile;
+    }
 
 }

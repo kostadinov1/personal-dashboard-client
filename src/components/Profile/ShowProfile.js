@@ -9,17 +9,13 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Modal,  Avatar, Card, Col, Row} from 'antd';
 import { deleteProfileService } from '../../services/profile/deleteProfileService'
 import { showProfileService } from '../../services/profile/showProfileService';
-import { getUserService } from '../../services/auth/getUserService';
 import { AuthContext } from '../../contexts/AuthContext';
 
 
 const ShowProfile = () => {
-  const { user } = useContext(AuthContext)
-
   const [profile, setProfile] = useState('')
   const navigate = useNavigate();
   const userID = localStorage.getItem('userID')
-
   const onDelete = () => {
     localStorage.setItem('userID', '')
     localStorage.setItem('accessToken', '')
@@ -129,7 +125,6 @@ const ShowProfile = () => {
           },
         },
       },
-      // 添加 中心统计文本 交互
       interactions: [
         {
           type: 'element-selected',
@@ -145,6 +140,7 @@ const ShowProfile = () => {
 
     useEffect(() => {
       showProfileService(userID).then((res) => {
+        // console.log('res in show profile', res)
         setProfile(res)
       }).catch((error) => console.log(error))
     }, [userID])
@@ -163,7 +159,7 @@ const ShowProfile = () => {
                   cover={
                     <img
                       alt="example"
-                      src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.kli5J_bjfkyTOk0orIlx3AHaEo%26pid%3DApi&f=1"
+                      src={`${profile.image_local}`}
                     />
                   }
                   actions={[
@@ -173,8 +169,8 @@ const ShowProfile = () => {
                 >
                   <Meta
                     avatar={<Avatar src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.2kEpxlhbnNbN9dPJBMdeZgHaHa%26pid%3DApi&f=1" />}
-                    title="Your Profile"
-                    description="This is the description"
+                    title={`${profile.first_name} ${profile.last_name}`}
+                    description={`Gender: ${profile.gender}`}
                   />
                 </Card>
       </Col>

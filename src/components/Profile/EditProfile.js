@@ -1,18 +1,11 @@
-import {
-  Button,
-  DatePicker,
-  Form,
-  Input,
-  Select,
-} from 'antd';
-import React, { } from 'react';
+import { Button, DatePicker, Form, Input,  Select } from 'antd';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import { createProfileService } from '../../services/profile/createProfileService'
-
-
+import { editProfileService } from '../../services/profile/editProfileService';
+import { showProfileService } from '../../services/profile/showProfileService';
+import moment from 'moment';
+import UploadImage from '../Upload/UploadImage';
 const { Option } = Select;
-
 const formItemLayout = {
   labelCol: {
     xs: {
@@ -44,19 +37,45 @@ const tailFormItemLayout = {
   },
 };
 
+
 const EditProfile = () => {
   const [form] = Form.useForm();
-  // const [autoCompleteResult, setAutoCompleteResult] = useState([]);
-  const navigate = useNavigate()
-  
+  const navigate = useNavigate();
+  const userID = localStorage.getItem('userID')
+  const [profile, setProfile] = useState({})
+
+
+
+
+
+  // Update Profile
+  useEffect(() => {
+    showProfileService(userID)
+    .then(res => {
+      setProfile(res)})
+    .catch(err => console.log(err))
+  }, [userID])
+  // Handle Form
   const onFinish = (values) => {
-    console.log('Received values of form: ', values);
-    createProfileService(values).then(res => {
-      navigate('/show-profile/')
-    })
+    values["dob"] = moment(values.dob).format("YYYY-MM-DD")
+    const profileData = {      
+        'first_name': values.first_name, 
+        'last_name': values.last_name, 
+        'dob': values.dob, 
+        'gender': values.gender, 
+        'phone': values.phone, 
+        'image_url': values.image_url,
+    }      
+    console.log('values', profileData);
+    editProfileService(userID, values)
+    .then((res) => {
+      setProfile(res)
+      navigate('/show-profile/')})
+    .catch(err => console.log(err))
   };
 
   return (
+    <>
     <Form
       {...formItemLayout}
       form={form}
@@ -77,29 +96,30 @@ const EditProfile = () => {
             message: 'The input is not valid!',
           },
           {
-            required: true,
+            required: false,
             message: 'Please input your First Name!',
           },
         ]}
       >
-        <Input />
+        <Input placeholder={`${profile.first_name}`} />
       </Form.Item>
 
       <Form.Item
         name="last_name"
         label="Last Name"
+        
         rules={[
           {
             type: 'text',
             message: 'The input is not valid!',
           },
           {
-            required: true,
+            required: false,
             message: 'Please input your Last Name!',
           },
         ]}
       >
-        <Input />
+        <Input placeholder={`${profile.last_name}`} />
       </Form.Item>
       
       <Form.Item
@@ -111,25 +131,22 @@ const EditProfile = () => {
             message: 'The input is not valid!',
           },
           {
-            required: true,
+            required: false,
             message: 'Please input your Last Name!',
           },
         ]}
       >
-        <DatePicker />
+        <DatePicker
+        bordered='true'
+        allowClear='true'
+        />
       </Form.Item>
 
       <Form.Item
         name="gender"
         label="Gender"
-        rules={[
-          {
-            required: true,
-            message: 'Please select gender!',
-          },
-        ]}
       >
-        <Select placeholder="select your gender">
+        <Select placeholder={`${profile.gender}`}>
           <Option value="Male">Male</Option>
           <Option value="Female">Female</Option>
           <Option value="LGBT+">LGBT+</Option>
@@ -141,26 +158,48 @@ const EditProfile = () => {
         label="Phone Number"
         rules={[
           {
-            required: true,
-            message: 'Please input your phone number!',
+            required: false,
+            message: 'Please enter number only!',
           },
         ]}
       >
         <Input
-          placeholder='Enter Phone Number'
+          placeholder={`${profile.phone}`}
           style={{
             width: '100%',
           }}
         />
       </Form.Item>
 
+      <Form.Item
+        name="image_url"
+        label="Link to Your Image"
+        rules={[
+          {
+            required: false,
+            message: 'Please enter Valid URL!',
+            // type: 'url'
+          },
+        ]}
+      >
+        <Input
+          placeholder={`${profile.image_url}`}
+          style={{
+            width: '100%',
+          }}
+        />
+      </Form.Item>
+      
+
       <Form.Item {...tailFormItemLayout}>
         <Button type="primary" htmlType="submit">
-          Register
+          Edit Profile
         </Button>
       </Form.Item>
 
     </Form>
+    <UploadImage ></UploadImage>
+    </>
   );
 };
 

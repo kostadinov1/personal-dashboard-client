@@ -19,6 +19,7 @@ import { ExperimentTwoTone } from '@ant-design/icons';
 import CalendarFullPage from './components/Calendar/Calendar';
 import 'antd/dist/antd.css';import './App.css';
 import { logoutService } from './services/auth/logoutServce';
+import ShowExercises from './components/Exercises/ShowExercises';
 const { Header, Content, Footer, Sider }  = Layout;
 
 
@@ -32,25 +33,16 @@ function App() {
   const onLogin = (user) => {
     setUserID(user.user_id)
     setUser(user)
-    // console.log('user onLogin from app.js:', user)
     setAccessToken(user.token)};
   
-
-
-
   const onLogOut = () => {
-    console.log('onLogout:', user)
-
     logoutService(user.token).then(res => {
-      console.log('onLogout in app.js, res=>', res)
-    }).catch((err)=>{console.log('onLogout-logout service call error:',err)})
+      console.log('onLogout', res)
+    }).catch((err)=>{console.log('onLogout error:',err)})
     setUserID({userID: ''})
     setAccessToken({accessToken:''});
   }
   
-
-
-
   return (
     <AuthContext.Provider value={{ user, accessToken, onLogin, onLogOut}} >
     <Layout style={{ minHeight: '100vh', }} >
@@ -120,7 +112,7 @@ function App() {
                 <Route path='/activities' element={<Activities />}/>
 
                    {/* Exercises */}
-                <Route path='/exercises' element={<Activities />}/>
+                <Route path='/show-exercises' element={<ShowExercises />}/>
 
             </Routes>
         </Content>

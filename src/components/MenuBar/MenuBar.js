@@ -52,7 +52,7 @@ import {
 
       <Menu.SubMenu title='Exercises' key='30' icon={<PieChartOutlined />}>
           <Menu.Item key="31" icon={<PieChartOutlined />}>
-            <Link to='/exercises'>Exercises</Link>
+            <Link to='/show-exercises'>Exercises</Link>
           </Menu.Item>
           <Menu.Item key="32" icon={<PieChartOutlined />}>
             <Link to='/create-exercise'>Create Exercise</Link>

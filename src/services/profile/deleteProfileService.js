@@ -1,3 +1,4 @@
+import { prettyFormat } from "@testing-library/react";
 
 
 export const deleteProfileService = async (profileId) => {
@@ -10,9 +11,10 @@ export const deleteProfileService = async (profileId) => {
             'Content-Type': 'application/json',
         },
     })
-    console.log(response)
-
-
     const profileDeleted = await response.json()
-    return profileDeleted;
+    if (response.ok) {
+        return profileDeleted
+    } else {
+        throw profileDeleted
+    }
 }
