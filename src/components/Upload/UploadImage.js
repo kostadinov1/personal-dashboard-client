@@ -9,23 +9,20 @@ const UploadImage = () => {
   const [fileObj, setFileObj] = useState({})
   const [uploading, setUploading] = useState(false);
 
-  const handleUpload = () => {
-    // const formData = new FormData();
-    // formData.append('image_local', fileObj)
-    // fileList.forEach((file) => {
-    //   formData.append('files[]', file);
-    // });
-    const imageObj = {
-              'image_local': fileObj
-    }
-    setUploading(true); // You can use any AJAX library you like
 
-    console.log(imageObj);
+  const handleUpload = () => {
+    setFileList(fileList);   
+    const formData = new FormData();
+    formData.append('user', userID)
+    formData.append('image_local', fileObj)
+
+    setUploading(true);
     const url = `http://127.0.0.1:8000/accounts/upload-profile-image/${userID}/`;
     fetch(url, {
-      method: 'PUT',
-      headers: {'content-type': 'multipart/form-data; boundary=----WebKitFormBoundaryqTqJIxvkWFYqvP5s',},
-      body: JSON.stringify(imageObj)
+      method: 'put',
+      headers: {'content-type': 'multipart/form-data; boundary=----WebKitFormBoundaryqTqJIxvkWFYqvP5s',
+      'Content-Disposition': `attachment; filename=${fileObj.name}`},
+      body: fileObj
     })
       .then((res) =>{
         console.log('res success', res);
@@ -56,9 +53,12 @@ const UploadImage = () => {
     },
     fileList,
   };
+
   return (
     <>
-      <Upload {...props}
+      <Upload
+      listType='picture'
+      {...props}
       >
         <Button icon={<UploadOutlined />}>Select File</Button>
       </Upload>

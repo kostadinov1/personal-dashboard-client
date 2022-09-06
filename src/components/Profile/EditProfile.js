@@ -1,10 +1,11 @@
-import { Button, DatePicker, Form, Input,  Select } from 'antd';
+import { Button, DatePicker, Form, Input,  Select, Image } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { editProfileService } from '../../services/profile/editProfileService';
 import { showProfileService } from '../../services/profile/showProfileService';
 import moment from 'moment';
 import UploadImage from '../Upload/UploadImage';
+
 const { Option } = Select;
 const formItemLayout = {
   labelCol: {
@@ -37,16 +38,11 @@ const tailFormItemLayout = {
   },
 };
 
-
 const EditProfile = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const userID = localStorage.getItem('userID')
   const [profile, setProfile] = useState({})
-
-
-
-
 
   // Update Profile
   useEffect(() => {
@@ -65,6 +61,7 @@ const EditProfile = () => {
         'gender': values.gender, 
         'phone': values.phone, 
         'image_url': values.image_url,
+        'image_local': values.image_local,
     }      
     console.log('values', profileData);
     editProfileService(userID, values)
@@ -76,6 +73,8 @@ const EditProfile = () => {
 
   return (
     <>
+    <Image src={profile.image_local} width={'200px'}></Image>
+    <UploadImage ></UploadImage>
     <Form
       {...formItemLayout}
       form={form}
@@ -178,7 +177,6 @@ const EditProfile = () => {
           {
             required: false,
             message: 'Please enter Valid URL!',
-            // type: 'url'
           },
         ]}
       >
@@ -189,16 +187,13 @@ const EditProfile = () => {
           }}
         />
       </Form.Item>
-      
 
       <Form.Item {...tailFormItemLayout}>
         <Button type="primary" htmlType="submit">
           Edit Profile
         </Button>
       </Form.Item>
-
     </Form>
-    <UploadImage ></UploadImage>
     </>
   );
 };

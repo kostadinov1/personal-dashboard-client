@@ -20,6 +20,7 @@ import CalendarFullPage from './components/Calendar/Calendar';
 import 'antd/dist/antd.css';import './App.css';
 import { logoutService } from './services/auth/logoutServce';
 import ShowExercises from './components/Exercises/ShowExercises';
+import CreateMyModel from './components/Upload/DraftUploadImage';
 const { Header, Content, Footer, Sider }  = Layout;
 
 
@@ -113,6 +114,8 @@ function App() {
 
                    {/* Exercises */}
                 <Route path='/show-exercises' element={<ShowExercises />}/>
+                <Route path='/draft' element={<CreateMyModel />}/>
+
 
             </Routes>
         </Content>
