@@ -18,6 +18,7 @@ import {
 import TextArea from 'antd/lib/input/TextArea';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { createExercise } from '../../services/exercises/createExercise';
 import { getExerciseTypes } from '../../services/exercises/getExerciseTypes';
 const { Option } = Select;
 const formItemLayout = {
@@ -38,8 +39,22 @@ const normFile = (e) => {
 
   return e?.fileList;
 };
-
+const tailFormItemLayout = {
+  wrapperCol: {
+    xs: {
+      span: 24,
+      offset: 0,
+    },
+    sm: {
+      span: 16,
+      offset: 8,
+    },
+  },
+};
 const CreateExercise = () => {
+
+  const userID = localStorage.getItem('userID')
+  const accessToken = localStorage.getItem('accessToken')
   const navigate = useNavigate()
   const [exerciseTypes, setExerciseTypes] = useState([])
 
@@ -56,7 +71,11 @@ const CreateExercise = () => {
 
 
   const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+    createExercise(userID, accessToken, values)
+    .then((res) => { console.log(res);})
+    .catch((res) => { console.log(res);})
+    
+
   };
 
   return (
@@ -123,7 +142,7 @@ const CreateExercise = () => {
         ]}
       >
         <Select placeholder="Please select exercise type">
-           {exerciseTypes.map((el) => <Option value={el.name}>{el.name}</Option>)}
+           {exerciseTypes.map((el) => <Option value={el.id}>{el.id}</Option>)}
         </Select>
       </Form.Item>
 
@@ -210,7 +229,11 @@ const CreateExercise = () => {
           <Button icon={<UploadOutlined />}>Click to upload</Button>
         </Upload>
       </Form.Item> */}
-
+       <Form.Item {...tailFormItemLayout}>
+        <Button type="primary" htmlType="submit">
+          Edit Profile
+        </Button>
+      </Form.Item>
     </Form>
     </>
   );
