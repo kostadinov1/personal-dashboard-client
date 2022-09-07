@@ -21,6 +21,7 @@ import 'antd/dist/antd.css';import './App.css';
 import { logoutService } from './services/auth/logoutServce';
 import ShowExercises from './components/Exercises/ShowExercises';
 import CreateExercise from './components/Exercises/CreateExercise';
+import EditExercise from './components/Exercises/EditExercise';
 const { Header, Content, Footer, Sider }  = Layout;
 
 
@@ -124,8 +125,8 @@ function App() {
                    {/* Exercises */}
                 <Route path='/show-exercises' element={<ShowExercises />}/>
                 <Route path='/create-exercise' element={<CreateExercise />}/>
-                <Route path='/edit-exercise' element={<ShowExercises />}/>
-                <Route path='/delete-exercise' element={<ShowExercises />}/>
+                <Route path='/edit-exercise/:id' element={<EditExercise />}/>
+                <Route path='/delete-exercise/:id' element={<ShowExercises />}/>
 
 
             </Routes>

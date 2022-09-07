@@ -57,7 +57,9 @@ const ShowExercises = () => {
       Create Exercise
     </Button>
 
-      <Table dataSource={exercises}
+
+      <Table
+      dataSource={exercises}
       onChange={onChange}
       >
         <ColumnGroup 
@@ -121,11 +123,14 @@ const ShowExercises = () => {
                   Details
                 </Button>
                </Link>
-               <Link to='/'>
-                <Button type="primary" shape="round" icon={<EditFilled />} size={'small'}>
+               <Link to={`/edit-exercise/${record.index}`}>
+
+                <Button  type="primary" shape="round" icon={<EditFilled />} size={'small'}>
                   Edit
                 </Button>
-               </Link>              <Link to='/'>
+                </Link>
+
+               <Link to={`/delete-exercise/${record}`}>
                 <Button type="primary" shape="round" icon={<DeleteFilled />} size={'small'}>
                   Delete
                 </Button>

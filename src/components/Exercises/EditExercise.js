@@ -17,8 +17,9 @@ import {
 } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { createExercise } from '../../services/exercises/createExercise';
+import { editExercise } from '../../services/exercises/editExercise';
 import { getExerciseTypes } from '../../services/exercises/getExerciseTypes';
 const { Option } = Select;
 const formItemLayout = {
@@ -51,13 +52,13 @@ const tailFormItemLayout = {
     },
   },
 };
-const CreateExercise = () => {
-
+const EditExercise = () => {
+  const {id }= useParams()
   const userID = localStorage.getItem('userID')
   const accessToken = localStorage.getItem('accessToken')
   const navigate = useNavigate()
   const [exerciseTypes, setExerciseTypes] = useState([])
-
+    console.log('id', id)
   useEffect(()=>{
     getExerciseTypes()
     .then((res) => {
@@ -71,10 +72,10 @@ const CreateExercise = () => {
 
 
   const onFinish = (values) => {
-    createExercise(userID, accessToken, values)
-    .then((res) => {
-      navigate('/show-exercises')
-      console.log(res);})
+    editExercise(id, accessToken, values)
+    .then((res) => { 
+        navigate('/show-exercises')
+        console.log(res);})
     .catch((res) => { console.log(res);})
     
 
@@ -241,4 +242,4 @@ const CreateExercise = () => {
   );
 };
 
-export default CreateExercise;
+export default EditExercise;
