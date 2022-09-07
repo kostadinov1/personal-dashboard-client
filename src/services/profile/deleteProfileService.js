@@ -1,14 +1,14 @@
-import { prettyFormat } from "@testing-library/react";
 
 
-export const deleteProfileService = async (profileId) => {
-    profileId = Number(profileId)
-    const url = `http://127.0.0.1:8000/accounts/delete-profile/${profileId}/`
-    console.log(url, profileId);
+export const deleteProfileService = async (userID, token) => {
+    userID = Number(userID)
+    const url = `http://127.0.0.1:8000/accounts/delete-profile/${userID}/`
+    console.log(url, userID);
     const response = await fetch(url , {
         method: 'delete',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': ' Token ' + token.slice(1, 41),
         },
     })
     const profileDeleted = await response.json()

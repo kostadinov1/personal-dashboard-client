@@ -1,5 +1,5 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Meta from 'antd/lib/card/Meta';
 import { Pie, measureTextWidth } from '@ant-design/plots';
@@ -9,18 +9,23 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Modal,  Avatar, Card, Col, Row} from 'antd';
 import { deleteProfileService } from '../../services/profile/deleteProfileService'
 import { showProfileService } from '../../services/profile/showProfileService';
-import { AuthContext } from '../../contexts/AuthContext';
-
 
 const ShowProfile = () => {
-  const [profile, setProfile] = useState('')
-  const navigate = useNavigate();
+  const user = localStorage.getItem('user')
   const userID = localStorage.getItem('userID')
+  const accessToken = localStorage.getItem('accessToken')
+  const [profile, setProfile] = useState({})
+  const navigate = useNavigate();
+
+  console.log('userID',userID)
+
   const onDelete = () => {
-    localStorage.setItem('userID', '')
-    localStorage.setItem('accessToken', '')
     deleteProfileService(userID)
-    .then(res => console.log(res))
+    .then(res => {
+      localStorage.setItem('user', '')
+      localStorage.setItem('accessToken', '')
+      localStorage.setItem('userID', '')
+      console.log(res)})
     .catch(err => console.log(err));
     navigate('/');
   };
@@ -66,7 +71,7 @@ const ShowProfile = () => {
         value: 18,
       },
       {
-        type: 'Bikeing',
+        type: 'Biking',
         value: 15,
       },
       {
@@ -139,12 +144,12 @@ const ShowProfile = () => {
     };
 
     useEffect(() => {
-      showProfileService(userID).then((res) => {
-        // console.log('res in show profile', res)
-        setProfile(res)
-      }).catch((error) => console.log(error))
-    }, [userID])
-
+      showProfileService(userID, accessToken)
+      .then(res => {
+        setProfile(res)})
+      .catch(err => console.log(err))
+    }, [userID, accessToken])
+  
 
   return (
     <>
@@ -168,7 +173,7 @@ const ShowProfile = () => {
                   ]}
                 >
                   <Meta
-                    avatar={<Avatar src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.2kEpxlhbnNbN9dPJBMdeZgHaHa%26pid%3DApi&f=1" />}
+                    avatar={<Avatar src={profile.image_url} />}
                     title={`${profile.first_name} ${profile.last_name}`}
                     description={`Gender: ${profile.gender}`}
                   />
@@ -207,7 +212,7 @@ const ShowProfile = () => {
                   }}>
           <div className="site-card-border-less-wrapper">
           <Card
-            title="Card title"
+            title="Card Modal"
             bordered={false}
             style={{
               width: '90%',

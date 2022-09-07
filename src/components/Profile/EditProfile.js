@@ -1,10 +1,10 @@
-import { Button, DatePicker, Form, Input,  Select, Image } from 'antd';
+import { Button, DatePicker, Form, Input,  Select, Image, PageHeader } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { editProfileService } from '../../services/profile/editProfileService';
 import { showProfileService } from '../../services/profile/showProfileService';
 import moment from 'moment';
-import UploadImage from '../Upload/UploadImage';
+import UploadImage from '../Upload/UploadProfileImage';
 
 const { Option } = Select;
 const formItemLayout = {
@@ -42,29 +42,25 @@ const EditProfile = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const userID = localStorage.getItem('userID')
+  const accessToken = localStorage.getItem('accessToken')
+
   const [profile, setProfile] = useState({})
 
   // Update Profile
   useEffect(() => {
-    showProfileService(userID)
+    showProfileService(userID, accessToken)
     .then(res => {
       setProfile(res)})
     .catch(err => console.log(err))
-  }, [userID])
+  }, [userID, accessToken])
+
   // Handle Form
   const onFinish = (values) => {
     values["dob"] = moment(values.dob).format("YYYY-MM-DD")
-    const profileData = {      
-        'first_name': values.first_name, 
-        'last_name': values.last_name, 
-        'dob': values.dob, 
-        'gender': values.gender, 
-        'phone': values.phone, 
-        'image_url': values.image_url,
-        'image_local': values.image_local,
-    }      
-    console.log('values', profileData);
-    editProfileService(userID, values)
+    for (let value in values) {
+      console.log(value);
+    }
+    editProfileService(userID, accessToken,  values)
     .then((res) => {
       setProfile(res)
       navigate('/show-profile/')})
@@ -73,6 +69,12 @@ const EditProfile = () => {
 
   return (
     <>
+     <PageHeader
+    className="site-page-header"
+    onBack={() => navigate('/show-profile')}
+    title="Back"
+    subTitle="This is a subtitle"
+  />
     <Image src={profile.image_local} width={'200px'}></Image>
     <UploadImage ></UploadImage>
     <Form

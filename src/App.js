@@ -20,7 +20,7 @@ import CalendarFullPage from './components/Calendar/Calendar';
 import 'antd/dist/antd.css';import './App.css';
 import { logoutService } from './services/auth/logoutServce';
 import ShowExercises from './components/Exercises/ShowExercises';
-import CreateMyModel from './components/Upload/DraftUploadImage';
+import CreateExercise from './components/Exercises/CreateExercise';
 const { Header, Content, Footer, Sider }  = Layout;
 
 
@@ -28,24 +28,30 @@ function App() {
 
   const [collapsed, setCollapsed] = useState(false);
   const [accessToken, setAccessToken] = useLocalStorage('accessToken',{accessToken: ''})
-  const [ userID, setUserID ] = useLocalStorage('userID', {userID: ''})
-  const [user, setUser] = useState({})
+  const [userID, setUserID] = useLocalStorage('userID', {userID: ''})
+  const [user, setUser] = useLocalStorage('user', {user: ''})
 
   const onLogin = (user) => {
-    setUserID(user.user_id)
-    setUser(user)
+    setUser(user);
+    setUserID(user.user_id);
     setAccessToken(user.token)};
+    
   
   const onLogOut = () => {
-    logoutService(user.token).then(res => {
-      console.log('onLogout', res)
-    }).catch((err)=>{console.log('onLogout error:',err)})
-    setUserID({userID: ''})
-    setAccessToken({accessToken:''});
-  }
+    logoutService(userID, accessToken).then(res => {
+      setUser({user: ''});
+      setUserID({userID: ''});
+      setAccessToken({accessToken:''});
+      console.log('onLogout', res);
+
+    }).catch((err)=>{console.log('onLogout error:',err)});
+        setUser({user: ''});
+        setUserID({userID: ''});
+        setAccessToken({accessToken:''});
+      }
   
   return (
-    <AuthContext.Provider value={{ user, accessToken, onLogin, onLogOut}} >
+    <AuthContext.Provider value={{  onLogin, onLogOut}} >
     <Layout style={{ minHeight: '100vh', }} >
       <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
         <div className="logo">
@@ -75,7 +81,9 @@ function App() {
                 size='small'
                 ><Link to='/register'>register</Link>
                </Button> 
-               </> : 
+               </> :
+               <>
+                 <span style={{color: 'white'}}>{user.email}  </span>
                 <Button
                 shape='round'
                 ghost='true'
@@ -83,6 +91,7 @@ function App() {
                 onClick={onLogOut}
                 ><Link to='/'>logout</Link>
                 </Button>
+                </>
               }
           </span>
         </Header>
@@ -114,7 +123,9 @@ function App() {
 
                    {/* Exercises */}
                 <Route path='/show-exercises' element={<ShowExercises />}/>
-                <Route path='/draft' element={<CreateMyModel />}/>
+                <Route path='/create-exercise' element={<CreateExercise />}/>
+                <Route path='/edit-exercise' element={<ShowExercises />}/>
+                <Route path='/delete-exercise' element={<ShowExercises />}/>
 
 
             </Routes>

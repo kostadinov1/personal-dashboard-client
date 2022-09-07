@@ -1,13 +1,16 @@
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, message, Upload } from 'antd';
 import React, { useState } from 'react';
-const userID = localStorage.getItem('userID')
+import { useNavigate } from 'react-router-dom';
 
 
 const UploadImage = () => {
   const [fileList, setFileList] = useState([]);
   const [fileObj, setFileObj] = useState({})
   const [uploading, setUploading] = useState(false);
+  const userID = localStorage.getItem('userID')
+  const accessToken = localStorage.getItem('accessToken')
+  const navigate = useNavigate()
 
 
   const handleUpload = () => {
@@ -21,7 +24,10 @@ const UploadImage = () => {
     fetch(url, {
       method: 'put',
       headers: {'content-type': 'multipart/form-data; boundary=----WebKitFormBoundaryqTqJIxvkWFYqvP5s',
-      'Content-Disposition': `attachment; filename=${fileObj.name}`},
+      'Content-Disposition': `attachment; filename=${fileObj.name}`,
+      'Authorization': ' Token ' + accessToken.slice(1, 41)
+    },
+
       body: fileObj
     })
       .then((res) =>{
@@ -30,6 +36,7 @@ const UploadImage = () => {
       .then(() => {
         setFileList([]);
         message.success('upload successfully.');
+        navigate('/show-profile')
       })
       .catch(() => {
         message.error('upload failed.');

@@ -12,7 +12,6 @@ import {
     import { Link } from 'react-router-dom';
     
     function MenuBar() {
-  
   return (
     <Menu theme="dark" mode="inline">
 
