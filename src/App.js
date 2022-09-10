@@ -4,7 +4,7 @@ import { useLocalStorage } from './hooks/useLocalStorage'
 import { AuthContext } from './contexts/AuthContext';
 import Home from './components/Home/Home';
 import React, { useState } from 'react';
-import Periodization from './components/Periodization/Periodization';
+import Periodization from './components/Periodization/Periodization/Periodization';
 import MenuBar from './components/MenuBar/MenuBar';
 import Login from './components/Authentication/Login';
 import Register from './components/Authentication/Register';
@@ -13,11 +13,11 @@ import { Button, Layout } from 'antd';
 import EditProfile from './components/Profile/EditProfile';
 import DeleteProfile from './components/Profile/DeleteProfile';
 import ShowProfile from './components/Profile/ShowProfile';
-import PeriodizationV2 from './components/Periodization/PeriodizationV2';
-import Statistics from './components/Periodization/Statistics';
-import { ExperimentTwoTone } from '@ant-design/icons';
+import Dashboard from './components/Dashboard/Dashboard';
+import Statistics from './components/Periodization/Periodization/Statistics';
+import { ExperimentTwoTone, UserOutlined } from '@ant-design/icons';
 import CalendarFullPage from './components/Calendar/Calendar';
-import 'antd/dist/antd.css';import './App.css';
+import 'antd/dist/antd.css';
 import { logoutService } from './services/auth/logoutServce';
 import ShowExercises from './components/Exercises/ShowExercises';
 import CreateExercise from './components/Exercises/CreateExercise';
@@ -87,13 +87,20 @@ function App() {
                </Button> 
                </> :
                <>
-                 <span style={{color: 'white'}}>{user.email}  </span>
+                 {/* <span style={{color: 'white'}}>{user.email}  </span> */}
                 <Button
                 shape='round'
                 ghost='true'
                 size='small'
                 onClick={onLogOut}
                 ><Link to='/'>logout</Link>
+                </Button>
+                <Button
+                icon={<UserOutlined/>}
+                shape='round'
+                ghost='true'
+                size='small'
+                ><Link to='/show-profile'>Profile</Link>
                 </Button>
                 </>
               }
@@ -117,10 +124,30 @@ function App() {
                 <Route path='/edit-profile' element={<EditProfile />}/>
                 <Route path='/delete-profile' element={<DeleteProfile />}/>
 
+                  {/* Dashboard */}
+                <Route path='/dashboard' element={<Dashboard />}/>
+
                   {/* Periodization */}
                 <Route path='/periodization' element={<Periodization />}/>
-                <Route path='/periodization-v2' element={<PeriodizationV2 />}/>
                 <Route path='/statistics' element={<Statistics />}/>
+
+                      {/* MacroCycle */}
+                    <Route path='/macrocycle' element={<Periodization />}/>
+                    <Route path='/create-macrocycle' element={<Periodization />}/>
+                    <Route path='/edit-macrocycle/:id' element={<Periodization />}/>
+                    <Route path='/delete-macrocycle/:id' element={<Periodization />}/>
+
+                      {/* MesoCycle */}
+                    <Route path='/mesocycle' element={<Periodization />}/>
+                    <Route path='/create-mesocycle' element={<Periodization />}/>
+                    <Route path='/edit-mesocycle/:id' element={<Periodization />}/>
+                    <Route path='/delete-mesocycle/:id' element={<Periodization />}/>
+
+                      {/* MicroCycle */}
+                    <Route path='/microcycle' element={<Periodization />}/>
+                    <Route path='/create-microcycle' element={<Periodization />}/>
+                    <Route path='/edit-microcycle/:id' element={<Periodization />}/>
+                    <Route path='/delete-microcycle/:id' element={<Periodization />}/>
 
                   {/* Activities */}
                 <Route path='/activities' element={<Activities />}/>
@@ -128,13 +155,11 @@ function App() {
                 <Route path='/edit-activity/:id' element={<EditActivity />}/>
                 <Route path='/delete-activity/:id' element={<DeleteActivity />}/>
 
-
                    {/* Exercises */}
                 <Route path='/show-exercises' element={<ShowExercises />}/>
                 <Route path='/create-exercise' element={<CreateExercise />}/>
                 <Route path='/edit-exercise/:id' element={<EditExercise />}/>
                 <Route path='/delete-exercise/:id' element={<ShowExercises />}/>
-
 
             </Routes>
         </Content>

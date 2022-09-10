@@ -1,6 +1,5 @@
 
 export const editProfileService = async (userID, token, dataObj) => {
-    console.log('profileData in edit service', token)
     const url = `http://127.0.0.1:8000/accounts/edit-profile/${userID}/`;
     const configs = {
         method: 'put',

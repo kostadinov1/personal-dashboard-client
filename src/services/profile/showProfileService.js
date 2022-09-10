@@ -1,6 +1,5 @@
 
 export const showProfileService = async (userID, token) => {
-    console.log(userID, token)
     const url = `http://127.0.0.1:8000/accounts/show-profile/${userID}/`;
     const response = await fetch(url, {
         method: 'get',

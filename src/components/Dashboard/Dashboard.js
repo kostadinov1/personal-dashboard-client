@@ -8,7 +8,7 @@ const MySegment = () => <Segmented options={['Daily', 'Weekly', 'Monthly', 'Quar
 
 
 
-function PeriodizationV2() {
+function Dashboard() {
     
     const data = [
       { year: '1991', value: 3 },
@@ -51,6 +51,6 @@ function PeriodizationV2() {
   )
 }
 
-export default PeriodizationV2;
+export default Dashboard;
 
 
