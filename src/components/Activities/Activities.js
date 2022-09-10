@@ -1,23 +1,15 @@
-import { Divider, Avatar, List, Button,   Popconfirm } from 'antd';
-import {   EditFilled, } from '@ant-design/icons';
-import {  } from 'antd';
+import { Divider, Avatar, List, Button } from 'antd';
+import { EditFilled, } from '@ant-design/icons';
 import { Pie } from '@ant-design/plots';
 import React, { useEffect, useState } from 'react';
 import { getAllActivities } from '../../services/activities/getAllActivities';
 import { Link, useNavigate } from 'react-router-dom';
-import { deleteActivity} from '../../services/activities/deleteActivity'
 import DeleteActivity from './DeleteActivity';
 
 
 const Activities = () => {
-
   const [activities, setActivities] = useState()
   const navigate = useNavigate()
-  const [open, setOpen] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
-
-
-
 
   useEffect(() => {
     getAllActivities()
@@ -121,19 +113,7 @@ const Activities = () => {
                 Edit
             </Button>
           </Link>,
-
           <DeleteActivity item={item}></DeleteActivity>
-//   <Link to={`/delete-activity/${item.id}`}>
-        //   <Button 
-        //     type="primary" 
-        //     shape="round" 
-        //     icon={<EditFilled />} 
-        //     size={'small'}>
-        //       Delete
-        //   </Button>
-        // </Link>,
-
-
         ]}
         extra={
           <img
@@ -156,7 +136,6 @@ const Activities = () => {
   </>
   )
 };
-
 
 export default Activities;
 

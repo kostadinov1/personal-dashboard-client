@@ -11,7 +11,11 @@ export const createMicroCycle = async (microCycleData) => {
         body: JSON.stringify(microCycleData)
     })
     const microCycle = await response.json()
-    return microCycle
+    if (response.ok) {
+        return microCycle
+    } else {
+        throw microCycle
+    }
 }
 
 
@@ -19,29 +23,40 @@ export const getAllMicroCycles = async () => {
     const url = 'http://127.0.0.1:8000/periodization/all-micro-cycles/'
     const response = await fetch(url)
     const microCycles = await response.json()
-    return microCycles
+    if (response.ok) {
+        return microCycles
+    } else {
+        throw microCycles
+    }
 }
 
 
 
 export const editMicroCycle = async (cycleId, cycleData) => {
     const url = `http://127.0.0.1:8000/periodization/edit-micro-cycle/${cycleId}/`
-    const res = await fetch(url, {
+    const response = await fetch(url, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(cycleData)
     })
-    const response = await res.json()
-    return response
-    
+    const microCycle = await response.json()
+    if (response.ok) {
+        return microCycle
+    } else {
+        throw microCycle
+    }
 }
     
 export const deleteMicroCycle = async (cycleId) => {
     const url = `http://127.0.0.1:8000/periodization/delete-micro-cycle/${cycleId}/`
-    const res = await fetch(url, {
+    const response = await fetch(url, {
         method: 'DELETE',
         headers: {'Content-Type': 'application/json'},
     })    
-    const response = await res.json()
-    return response
+    const microCycle = await response.json()
+    if (response.ok) {
+        return microCycle
+    } else {
+        throw microCycle
+    }
 }

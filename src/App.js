@@ -25,6 +25,7 @@ import EditExercise from './components/Exercises/EditExercise';
 import CreateActivity from './components/Activities/CreateActivity';
 import DeleteActivity from './components/Activities/DeleteActivity';
 import EditActivity from './components/Activities/EditActivity';
+import DeleteExercise from './components/Exercises/DeleteExercise';
 const { Header, Content, Footer, Sider }  = Layout;
 
 
@@ -62,7 +63,7 @@ function App() {
         <ExperimentTwoTone style={{ fontSize: '22px', color: '#08c',
                                     marginInline: '15px' }}/>
         <span style={{color:'white', fontFamily: 'fantasy',
-                      fontWeight: 'bold', fontStretch: 'expanded'}}>ScrollLog</span>
+                      fontWeight: 'bold', fontStretch: 'expanded'}}>LOG</span>
         </div>
         <MenuBar/>
       </Sider>
@@ -159,7 +160,7 @@ function App() {
                 <Route path='/show-exercises' element={<ShowExercises />}/>
                 <Route path='/create-exercise' element={<CreateExercise />}/>
                 <Route path='/edit-exercise/:id' element={<EditExercise />}/>
-                <Route path='/delete-exercise/:id' element={<ShowExercises />}/>
+                <Route path='/delete-exercise/:id' element={<DeleteExercise />}/>
 
             </Routes>
         </Content>

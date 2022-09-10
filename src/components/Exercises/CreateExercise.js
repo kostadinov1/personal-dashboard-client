@@ -1,25 +1,10 @@
-import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
-import {
-  Button,
-  Checkbox,
-  Col,
-  Form,
-  Input,
-  InputNumber,
-  PageHeader,
-  Radio,
-  Rate,
-  Row,
-  Select,
-  Slider,
-  Switch,
-  Upload,
-} from 'antd';
+import {Button, Form, Input, InputNumber, PageHeader, Select,} from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createExercise } from '../../services/exercises/createExercise';
 import { getExerciseTypes } from '../../services/exerciseTypes/getExerciseTypes';
+
 const { Option } = Select;
 const formItemLayout = {
   labelCol: {
@@ -28,16 +13,6 @@ const formItemLayout = {
   wrapperCol: {
     span: 14,
   },
-};
-
-const normFile = (e) => {
-  console.log('Upload event:', e);
-
-  if (Array.isArray(e)) {
-    return e;
-  }
-
-  return e?.fileList;
 };
 const tailFormItemLayout = {
   wrapperCol: {
@@ -51,8 +26,9 @@ const tailFormItemLayout = {
     },
   },
 };
-const CreateExercise = () => {
 
+
+const CreateExercise = () => {
   const userID = localStorage.getItem('userID')
   const accessToken = localStorage.getItem('accessToken')
   const navigate = useNavigate()
@@ -67,8 +43,7 @@ const CreateExercise = () => {
     .catch((res) => {
       console.log('response in ERROR:', res);
     })
-}, [])
-
+  }, [])
 
   const onFinish = (values) => {
     createExercise(userID, accessToken, values)
@@ -76,10 +51,9 @@ const CreateExercise = () => {
       navigate('/show-exercises')
       console.log(res);})
     .catch((res) => { console.log(res);})
-    
-
   };
 
+  
   return (
     <>
     <PageHeader

@@ -100,7 +100,7 @@ const EditExercise = () => {
       }}
     >
       <Form.Item label="Plain Text">
-        <span className="ant-form-text">China</span>
+        <span className="ant-form-text">Edit Exercise Form</span>
       </Form.Item>
       <Form.Item
         name="name"
@@ -234,7 +234,7 @@ const EditExercise = () => {
       </Form.Item> */}
        <Form.Item {...tailFormItemLayout}>
         <Button type="primary" htmlType="submit">
-          Edit Profile
+          Edit Exercise
         </Button>
       </Form.Item>
     </Form>
