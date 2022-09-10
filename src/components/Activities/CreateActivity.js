@@ -106,7 +106,7 @@ const CreateActivity = () => {
   const onFinish = (values) => {
     createActivity(userID, accessToken, values)
     .then((res) => {
-      navigate('/show-activities')
+      navigate('/activities')
       console.log(res);})
     .catch((res) => { console.log(res);})
   };
@@ -115,7 +115,7 @@ const CreateActivity = () => {
     <>
     <PageHeader
         className="site-page-header"
-        onBack={() => navigate('/show-activities')}
+        onBack={() => navigate('/activities')}
         title="Back"
         subTitle="to Exercises"
     />    

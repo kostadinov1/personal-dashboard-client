@@ -33,11 +33,9 @@ import {
             <Link to='/periodization-v2'>Periodization</Link>
           </Menu.Item>
           <Menu.Item key="13" icon={<PieChartOutlined />}>
-            <Link to='/statistics'>Statistics</Link>
+            <Link to='/statistics'>Cycles</Link>
           </Menu.Item>
-          <Menu.Item key="14" icon={<PieChartOutlined />}>
-            <Link to='/create-activity'>Create</Link>
-          </Menu.Item>          
+        
       </Menu.SubMenu>
 
       <Menu.SubMenu title='Activities' key='20' icon={<PieChartOutlined />}>

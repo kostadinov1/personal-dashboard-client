@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { QuestionCircleOutlined } from '@ant-design/icons';
+import { DeleteFilled, QuestionCircleOutlined } from '@ant-design/icons';
 import { Button, Popconfirm } from 'antd';
 import { deleteActivity } from "../../services/activities/deleteActivity";
 
@@ -14,7 +14,7 @@ function DeleteActivity({item}) {
 
   }
 
-  const onConfirm = (e,) => {
+  const onConfirm = (e) => {
     deleteActivity(item.id, token)
     .then((res) => {
       navigate('/activities')
@@ -36,7 +36,12 @@ function DeleteActivity({item}) {
             />
           }
         >
-      <Button>Delete</Button>
+      <Button
+        type="primary"
+        shape="round"
+        size="small"
+        icon={<DeleteFilled/>}
+        >Delete</Button>
       </Popconfirm>
     </>
   );
