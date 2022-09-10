@@ -22,6 +22,9 @@ import { logoutService } from './services/auth/logoutServce';
 import ShowExercises from './components/Exercises/ShowExercises';
 import CreateExercise from './components/Exercises/CreateExercise';
 import EditExercise from './components/Exercises/EditExercise';
+import CreateActivity from './components/Activities/CreateActivity';
+import DeleteActivity from './components/Activities/DeleteActivity';
+import EditActivity from './components/Activities/EditActivity';
 const { Header, Content, Footer, Sider }  = Layout;
 
 
@@ -121,6 +124,10 @@ function App() {
 
                   {/* Activities */}
                 <Route path='/activities' element={<Activities />}/>
+                <Route path='/create-activity' element={<CreateActivity />}/>
+                <Route path='/edit-activity/:id' element={<EditActivity />}/>
+                <Route path='/delete-activity/:id' element={<DeleteActivity />}/>
+
 
                    {/* Exercises */}
                 <Route path='/show-exercises' element={<ShowExercises />}/>

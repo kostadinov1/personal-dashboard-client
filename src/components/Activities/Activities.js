@@ -1,21 +1,36 @@
-import { Col, Divider, Row, Space, Avatar, List,  } from 'antd';
-import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';
+import { Divider, Avatar, List, Button,   Popconfirm } from 'antd';
+import {   EditFilled, } from '@ant-design/icons';
 import {  } from 'antd';
 import { Pie } from '@ant-design/plots';
 import React, { useEffect, useState } from 'react';
 import { getAllActivities } from '../../services/activities/getAllActivities';
-const IconText = ({ icon, text }) => (
-  <Space>
-    {React.createElement(icon)}
-    {text}
-  </Space>
-);
+import { Link, useNavigate } from 'react-router-dom';
+import { deleteActivity} from '../../services/activities/deleteActivity'
+import DeleteActivity from './DeleteActivity';
+
 
 const Activities = () => {
+
   const [activities, setActivities] = useState()
+  const navigate = useNavigate()
+  const [open, setOpen] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+
+
+
+
+  useEffect(() => {
+    getAllActivities()
+    .then((res) => {
+      setActivities(res)
+      console.log(res)})
+    .catch((res) => {console.log(res)})
+  }, [])
+
+  const runs = activities ? activities.filter((a) => a.type === 1).length : 0
 
   const pushPullValue = 4;   
-
+  // Pie Chart Data
   const data = [
     {
       type: 'Push Pull',
@@ -23,7 +38,7 @@ const Activities = () => {
     },
     {
       type: 'Run',
-      value: 25,
+      value: runs,
     },
     {
       type: 'Swim',
@@ -63,19 +78,20 @@ const Activities = () => {
     ],
   };
 
-  useEffect(() => {
-    getAllActivities()
-    .then((res) => {
-      setActivities(res)
-      console.log(res)})
-    .catch((res) => {console.log(res)})
-  }, [])
+  const createExerciseHandler = (e) => {
+    e.preventDefault()
+    navigate('/create-activity')
+  }
 
   return (
   <>
     <Pie {...config} />;
+    <Divider orientation="left"></Divider>
 
-    <Divider orientation="left">sub-element align left</Divider>
+    <Button onClick={createExerciseHandler} type="primary" block>
+      Create Activity
+    </Button>
+    <Divider orientation="left">Activities</Divider>
 
     <List
     itemLayout="vertical"
@@ -96,30 +112,51 @@ const Activities = () => {
       <List.Item
         key={item.name}
         actions={[
-          <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
-          <IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" />,
-          <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
+          <Link to={`/edit-activity/${item.id}`}>
+            <Button 
+              type="primary" 
+              shape="round" 
+              icon={<EditFilled />} 
+              size={'small'}>
+                Edit
+            </Button>
+          </Link>,
+
+          <DeleteActivity item={item}></DeleteActivity>
+//   <Link to={`/delete-activity/${item.id}`}>
+        //   <Button 
+        //     type="primary" 
+        //     shape="round" 
+        //     icon={<EditFilled />} 
+        //     size={'small'}>
+        //       Delete
+        //   </Button>
+        // </Link>,
+
+
         ]}
         extra={
           <img
-            width={272}
+            width={150}
+            height={130}
             alt="logo"
             src={item.image}
           />
         }
       >
         <List.Item.Meta
-          avatar={<Avatar src={item.avatar} />}
-          title={<a href={item.href}>{item.title}</a>}
-          description={item.description}
+          avatar={<Avatar src={item.image} />}
+          title={<Link to={'/'}>{item.name}</Link>}
+        description={`Type: ${item.type}`}
         />
-        {item.content}
+        {item.description}
       </List.Item>
     )}
   />
   </>
   )
 };
+
 
 export default Activities;
 

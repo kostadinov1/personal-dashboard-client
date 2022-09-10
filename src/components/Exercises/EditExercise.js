@@ -20,7 +20,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createExercise } from '../../services/exercises/createExercise';
 import { editExercise } from '../../services/exercises/editExercise';
-import { getExerciseTypes } from '../../services/exercises/getExerciseTypes';
+import { getExerciseTypes } from '../../services/exerciseTypes/getExerciseTypes';
 const { Option } = Select;
 const formItemLayout = {
   labelCol: {

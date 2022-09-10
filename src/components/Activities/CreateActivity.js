@@ -18,8 +18,9 @@ import {
 import TextArea from 'antd/lib/input/TextArea';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createExercise } from '../../services/exercises/createExercise';
-import { getExerciseTypes } from '../../services/exerciseTypes/getExerciseTypes';
+import { createActivity } from '../../services/activities/createActivity';
+import { getActivityTypes } from '../../services/activityTypes/getActivityTypes';
+import { getAllExercises } from '../../services/exercises/getAllExercises';
 const { Option } = Select;
 const formItemLayout = {
   labelCol: {
@@ -51,40 +52,70 @@ const tailFormItemLayout = {
     },
   },
 };
-const CreateExercise = () => {
+const CreateActivity = () => {
 
   const userID = localStorage.getItem('userID')
   const accessToken = localStorage.getItem('accessToken')
   const navigate = useNavigate()
-  const [exerciseTypes, setExerciseTypes] = useState([])
+  const [activityTypes, setActivityTypes] = useState([])
+  const [exercises, setExercises] = useState([])
 
   useEffect(()=>{
-    getExerciseTypes()
+    getActivityTypes()
+    .then((res) => {setActivityTypes(res)})
+    .catch((res) => {console.log('response in ERROR:', res);})
+}, [])
+
+
+  useEffect(()=>{
+    getAllExercises()
     .then((res) => {
-      setExerciseTypes(res)
+      setExercises(res)
       console.log('response in SUCCESS:', res);
     })
     .catch((res) => {
       console.log('response in ERROR:', res);
     })
-}, [])
+  }, [])
+
+  // Goals
+  // useEffect(()=>{
+  //   getActivityTypes()
+  //   .then((res) => {
+  //     setActivityTypes(res)
+  //     console.log('response in SUCCESS:', res);
+  //   })
+  //   .catch((res) => {
+  //     console.log('response in ERROR:', res);
+  //   })
+  // }, [])
+
+  // Micro Cycle
+  // useEffect(()=>{
+  //   getActivityTypes()
+  //   .then((res) => {
+  //     setActivityTypes(res)
+  //     console.log('response in SUCCESS:', res);
+  //   })
+  //   .catch((res) => {
+  //     console.log('response in ERROR:', res);
+  //   })
+  // }, [])
 
 
   const onFinish = (values) => {
-    createExercise(userID, accessToken, values)
+    createActivity(userID, accessToken, values)
     .then((res) => {
-      navigate('/show-exercises')
+      navigate('/show-activities')
       console.log(res);})
     .catch((res) => { console.log(res);})
-    
-
   };
 
   return (
     <>
     <PageHeader
         className="site-page-header"
-        onBack={() => navigate('/show-exercises')}
+        onBack={() => navigate('/show-activities')}
         title="Back"
         subTitle="to Exercises"
     />    
@@ -98,8 +129,8 @@ const CreateExercise = () => {
         rate: 3.5,
       }}
     >
-      <Form.Item label="Plain Text">
-        <span className="ant-form-text">China</span>
+      <Form.Item label="Create Form">
+        <span className="ant-form-text">Activity</span>
       </Form.Item>
       <Form.Item
         name="name"
@@ -125,11 +156,30 @@ const CreateExercise = () => {
         <TextArea placeholder={'Please Describe the Exercise'} />
       </Form.Item>
 
-      <Form.Item
-        name="cues"
-        label="Cues"
-      >
-        <TextArea placeholder={'Please enter your cues'} />
+       
+      <Form.Item label="Pace">
+        <Form.Item name="pace" noStyle>
+          <InputNumber min={1} max={500} />
+        </Form.Item>
+        <span className="ant-form-text"> mins per 1km</span>
+      </Form.Item>
+      <Form.Item label="Speed">
+        <Form.Item name="speed" noStyle>
+          <InputNumber min={1} max={50} />
+        </Form.Item>
+        <span className="ant-form-text"> kmph</span>
+      </Form.Item>
+      <Form.Item label="Heart Rate">
+        <Form.Item name="heart_rate" noStyle>
+          <InputNumber min={1} max={700} />
+        </Form.Item>
+        <span className="ant-form-text"> bpm</span>
+      </Form.Item>
+      <Form.Item label="RPE">
+        <Form.Item name="rpe" noStyle>
+          <InputNumber min={1} max={2000} />
+        </Form.Item>
+        <span className="ant-form-text"> points</span>
       </Form.Item>
 
       <Form.Item
@@ -144,42 +194,41 @@ const CreateExercise = () => {
         ]}
       >
         <Select placeholder="Please select exercise type">
-           {exerciseTypes.map((el) => <Option value={el.id}>{el.id}</Option>)}
+           {activityTypes.map((el) => <Option key={el.id} value={el.id}>{el.id}</Option>)}
         </Select>
       </Form.Item>
 
 
-      
-      <Form.Item label="Reps">
-        <Form.Item name="reps" noStyle>
-          <InputNumber min={1} max={500} />
-        </Form.Item>
-        <span className="ant-form-text"> machines</span>
+      <Form.Item
+        name="exercises"
+        label="Exercises"
+        hasFeedback
+      >
+        <Select placeholder="Please select exercise type">
+           {exercises.map((el) => <Option key={el.id} value={el.id}>{el.name}</Option>)}
+        </Select>
       </Form.Item>
-      <Form.Item label="Sets">
-        <Form.Item name="sets" noStyle>
-          <InputNumber min={1} max={50} />
-        </Form.Item>
-        <span className="ant-form-text"> machines</span>
+
+      <Form.Item
+        name="goal"
+        label="Goal"
+        hasFeedback
+      >
+        <Select placeholder="Please select exercise type">
+           {activityTypes.map((el) => <Option  key={el.id} value={el.id}>{el.id}</Option>)}
+        </Select>
       </Form.Item>
-      <Form.Item label="Weights in Kg">
-        <Form.Item name="weights_in_kg" noStyle>
-          <InputNumber min={1} max={700} />
-        </Form.Item>
-        <span className="ant-form-text"> machines</span>
+
+      <Form.Item
+        name="micro_cycle"
+        label="Micro Cycle"
+        hasFeedback
+      >
+        <Select placeholder="Please select exercise type">
+           {activityTypes.map((el) => <Option  key={el.id} value={el.id}>{el.id}</Option>)}
+        </Select>
       </Form.Item>
-      <Form.Item label="Calories Burned">
-        <Form.Item name="calories_burnes" noStyle>
-          <InputNumber min={1} max={2000} />
-        </Form.Item>
-        <span className="ant-form-text"> machines</span>
-      </Form.Item>
-      <Form.Item label="Breaks">
-        <Form.Item name="breaks_in_seconds" noStyle>
-          <InputNumber min={1} max={600} />
-        </Form.Item>
-        <span className="ant-form-text"> seconds</span>
-      </Form.Item>
+
 
 {/* 
       <Form.Item name="slider" label="Slider">
@@ -233,7 +282,7 @@ const CreateExercise = () => {
       </Form.Item> */}
        <Form.Item {...tailFormItemLayout}>
         <Button type="primary" htmlType="submit">
-          Edit Profile
+          Create Activity
         </Button>
       </Form.Item>
     </Form>
@@ -241,4 +290,4 @@ const CreateExercise = () => {
   );
 };
 
-export default CreateExercise;
+export default CreateActivity;
