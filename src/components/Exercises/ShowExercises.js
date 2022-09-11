@@ -50,6 +50,7 @@ const ShowExercises = () => {
     </Button>
   <List>
     <VirtualList
+    
       data={exercises}
       height={ContainerHeight}
       itemHeight={47}
@@ -59,9 +60,13 @@ const ShowExercises = () => {
       {(item) => (
         <List.Item 
         key={item.id}
+
         actions={[
-          <Link to={`/edit-exercise/${item.id}`}>
+          <Link
+          to={`/edit-exercise/${item.id}`}>
             <Button
+                    exercise={item}
+
               type='primary'
               size='small'
               shape='round'

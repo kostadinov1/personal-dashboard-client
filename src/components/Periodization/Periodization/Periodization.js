@@ -1,63 +1,128 @@
-import { Tree } from 'antd';
+import { Badge, Calendar } from 'antd';
 import React from 'react';
 
-const treeData = [
-  {
-    title: 'Year',
-    key: '0-0',
-    children: [
-      {
-        title: 'January-March',
-        key: '0-0-0',
-        disabled: false,
-        children: [
-          {
-            title: 'Week1',
-            key: '0-0-0-0',
-            disableCheckbox: true,
-          },
-          {
-            title: 'Week2',
-            key: '0-0-0-1',
-          },
-        ],
-      },
-      {
-        title: 'April-June',
-        key: '0-0-1',
-        children: [
-          {
-            title: (<span style={{ color: '#1890ff',}}> Week1 </span>), 
-            key: '0-0-1-0',
-          },
-        ],
-      },
-    ],
-  },
-];
+// calendar styles
+// .events {
+//   margin: 0;
+//   padding: 0;
+//   list-style: none;
+// }
+// .events .ant-badge-status {
+//   width: 100%;
+//   overflow: hidden;
+//   font-size: 12px;
+//   white-space: nowrap;
+//   text-overflow: ellipsis;
+// }
+// .notes-month {
+//   font-size: 28px;
+//   text-align: center;
+// }
+// .notes-month section {
+//   font-size: 28px;
+// }
 
+
+const getListData = (value) => {
+  let listData;
+
+  switch (value.date()) {
+    case 8:
+      listData = [
+        {
+          type: 'warning',
+          content: 'This is warning event.',
+        },
+        {
+          type: 'success',
+          content: 'This is usual event.',
+        },
+      ];
+      break;
+
+    case 10:
+      listData = [
+        {
+          type: 'warning',
+          content: 'This is warning event.',
+        },
+        {
+          type: 'success',
+          content: 'This is usual event.',
+        },
+        {
+          type: 'error',
+          content: 'This is error event.',
+        },
+      ];
+      break;
+
+    case 15:
+      listData = [
+        {
+          type: 'warning',
+          content: 'This is warning event',
+        },
+        {
+          type: 'success',
+          content: 'This is very long usual event。。....',
+        },
+        {
+          type: 'error',
+          content: 'This is error event 1.',
+        },
+        {
+          type: 'error',
+          content: 'This is error event 2.',
+        },
+        {
+          type: 'error',
+          content: 'This is error event 3.',
+        },
+        {
+          type: 'error',
+          content: 'This is error event 4.',
+        },
+      ];
+      break;
+
+    default:
+  }
+
+  return listData || [];
+};
+
+const getMonthData = (value) => {
+  if (value.month() === 8) {
+    return 1394;
+  }
+};
 
 const Periodization = () => {
-
-  const onSelect = (selectedKeys, info) => {
-    console.log('selected', selectedKeys, info);
+  const monthCellRender = (value) => {
+    const num = getMonthData(value);
+    return num ? (
+      <div className="notes-month">
+        <section>{num}</section>
+        <span>Backlog number</span>
+      </div>
+    ) : null;
   };
 
-  const onCheck = (checkedKeys, info) => {
-    console.log('onCheck', checkedKeys, info);
+  const dateCellRender = (value) => {
+    const listData = getListData(value);
+    return (
+      <ul className="events">
+        {listData.map((item) => (
+          <li key={item.content}>
+            <Badge status={item.type} text={item.content} />
+          </li>
+        ))}
+      </ul>
+    );
   };
 
-  return (
-    <Tree
-      checkable
-      defaultExpandedKeys={['0-0-0', '0-0-1']}
-      defaultSelectedKeys={['0-0-0', '0-0-1']}
-      defaultCheckedKeys={['0-0-0', '0-0-1']}
-      onSelect={onSelect}
-      onCheck={onCheck}
-      treeData={treeData}
-    />
-  );
+  return <Calendar dateCellRender={dateCellRender} monthCellRender={monthCellRender} />;
 };
 
 export default Periodization;

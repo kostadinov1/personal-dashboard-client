@@ -195,8 +195,8 @@ const EditActivity = () => {
           },
         ]}
       >
-        <Select placeholder="Please select exercise type">
-           {activityTypes.map((el) => <Option key={el.id} value={el.id}>{el.id}</Option>)}
+        <Select placeholder="Please select activity type">
+           {activityTypes.map((el) => <Option key={el.id} value={el.name}>{el.name}</Option>)}
         </Select>
       </Form.Item>
 

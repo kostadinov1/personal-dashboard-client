@@ -41,7 +41,7 @@ import {
       </Menu.SubMenu>
 
       <Menu.Item key="3" icon={<PieChartOutlined />}>
-            <Link to='/activities'>All Activities</Link>
+            <Link to='/activities'>Activities</Link>
           </Menu.Item>
 
 
